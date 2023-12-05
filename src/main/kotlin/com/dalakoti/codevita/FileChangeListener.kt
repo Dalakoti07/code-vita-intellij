@@ -7,21 +7,23 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
 
-class FileChangeListener(private val project: Project) : FileEditorManagerListener {
+class FileChangeListener(private val project: Project?) : FileEditorManagerListener {
 
-    private var gitChangesTracker = GitChangesTracker()
+    private var gitChangesTracker = GitChangesTracker(project!!.basePath!!)
 
     override fun fileOpened(source: FileEditorManager, file: VirtualFile) {
         // File opened, you can add custom logic here if needed
+        Messages.showMessageDialog(project, "file was opened", "opened", Messages.getInformationIcon())
     }
 
     override fun fileClosed(source: FileEditorManager, file: VirtualFile) {
         // File closed, you can add custom logic here if needed
+        Messages.showMessageDialog(project, "file was closed", "closed", Messages.getInformationIcon())
     }
 
     override fun selectionChanged(event: FileEditorManagerEvent) {
         val modifiedFileCount = calculateModifiedFileCount()
-        if (modifiedFileCount >= 20) {
+        if (modifiedFileCount >= 2) {
             showDialog("More than 20 files modified!")
         }
     }
