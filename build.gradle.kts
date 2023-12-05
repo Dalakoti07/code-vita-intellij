@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+dependencies{
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.11.0.202103091610-r")
+}
+
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
