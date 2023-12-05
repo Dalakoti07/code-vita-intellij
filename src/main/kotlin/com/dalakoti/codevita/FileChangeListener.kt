@@ -9,7 +9,7 @@ import com.intellij.openapi.vfs.VirtualFile
 
 class FileChangeListener(private val project: Project?) : FileEditorManagerListener {
 
-    private var gitChangesTracker = GitChangesTracker("/Users/saurabhdalakoti/IdeaProjects/code-vita-intellij")
+    private var gitChangesTracker = GitChangesTracker() //("/Users/saurabhdalakoti/IdeaProjects/code-vita-intellij")
 
     override fun fileOpened(source: FileEditorManager, file: VirtualFile) {
         // File opened, you can add custom logic here if needed

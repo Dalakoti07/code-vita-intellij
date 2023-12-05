@@ -10,13 +10,24 @@ import java.io.IOException
 import com.intellij.openapi.util.Key
 
 
-class GitChangesTracker(
-    private var gitDirectory: String = ""
-) {
+class GitChangesTracker {
 
     private fun runCommandInPlugin(onTrueHOF: (String)-> Unit) {
-        val commandLine = GeneralCommandLine("git", "status")
-        val processHandler = OSProcessHandler(commandLine)
+        val changeDirCommand = GeneralCommandLine("cd","/Users/saurabhdalakoti/IdeaProjects/code-vita-intellij")
+        val processHandler = OSProcessHandler(changeDirCommand)
+        processHandler.startNotify()
+
+        processHandler.addProcessListener(object : ProcessAdapter() {
+            override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
+                // Show a dialog with the result
+                seeGitStatus(onTrueHOF)
+            }
+        })
+    }
+
+    private fun seeGitStatus(onTrueHOF: (String) -> Unit) {
+        val changeDirCommand = GeneralCommandLine("pwd")
+        val processHandler = OSProcessHandler(changeDirCommand)
         processHandler.startNotify()
 
         processHandler.addProcessListener(object : ProcessAdapter() {
