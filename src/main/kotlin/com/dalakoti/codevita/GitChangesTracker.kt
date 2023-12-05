@@ -1,23 +1,40 @@
 package com.dalakoti.codevita
 
-import org.eclipse.jgit.api.Git
+import com.intellij.execution.configurations.GeneralCommandLine
+import com.intellij.execution.process.OSProcessHandler
+import com.intellij.execution.process.ProcessAdapter
+import com.intellij.execution.process.ProcessEvent
+import com.intellij.openapi.application.ApplicationManager
 import org.eclipse.jgit.api.errors.GitAPIException
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder
-import java.io.File
 import java.io.IOException
+import com.intellij.openapi.util.Key
 
 
 class GitChangesTracker(
     private var gitDirectory: String = ""
 ) {
 
-    fun getModifiedFileCount(): Int{
-        try {
-            FileRepositoryBuilder().setGitDir(File(gitDirectory, ".git")).build().use { repository ->
-                Git(repository).use { git ->
-                    return git.status().call().modified.size
+    private fun runCommandInPlugin(onTrueHOF: (String)-> Unit) {
+        val commandLine = GeneralCommandLine("git", "status")
+        val processHandler = OSProcessHandler(commandLine)
+        processHandler.startNotify()
+
+        processHandler.addProcessListener(object : ProcessAdapter() {
+            override fun onTextAvailable(event: ProcessEvent, outputType: Key<*>) {
+                val result = event.text
+                // Show a dialog with the result
+                ApplicationManager.getApplication().invokeLater {
+                    onTrueHOF(result)
                 }
             }
+        })
+    }
+
+    fun getModifiedFileCount(onTrueHOF: (String)-> Unit): Int{
+        try {
+            // core logic to tell
+            runCommandInPlugin(onTrueHOF)
+            return 0
         } catch (e: IOException) {
             e.printStackTrace()
             return -1

@@ -20,12 +20,12 @@ class GitChangesService(@param:NotNull private val project: Project) {
         )
     }*/
 
-    val modifiedFileCount: Int
+  /*  val modifiedFileCount: Int
         get() {
             val gitChangesTracker = GitChangesTracker(project.basePath!!)
             return gitChangesTracker.getModifiedFileCount()
         } // Your other service methods go here
-
+*/
 
 
 }

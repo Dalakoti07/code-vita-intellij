@@ -13,7 +13,7 @@ class FileChangeListener(private val project: Project?) : FileEditorManagerListe
 
     override fun fileOpened(source: FileEditorManager, file: VirtualFile) {
         // File opened, you can add custom logic here if needed
-        showDialog("File was opened")
+//        showDialog("File was opened")
     }
 
     override fun fileClosed(source: FileEditorManager, file: VirtualFile) {
@@ -22,17 +22,18 @@ class FileChangeListener(private val project: Project?) : FileEditorManagerListe
     }
 
     override fun selectionChanged(event: FileEditorManagerEvent) {
-        val modifiedFileCount = calculateModifiedFileCount()
-        if (modifiedFileCount >= 2) {
-            showDialog("More than 20 files modified!")
-        }
+        calculateModifiedFileCount()
     }
 
     private fun calculateModifiedFileCount(): Int {
         // Implement logic to calculate the modified file count
         // This could involve checking version control status, timestamps, etc.
         // For simplicity, a dummy implementation is provided here.
-        return gitChangesTracker.getModifiedFileCount()
+        return gitChangesTracker.getModifiedFileCount(
+            onTrueHOF = {
+                showDialog(it)
+            }
+        )
     }
 
     private fun showDialog(message: String) {
