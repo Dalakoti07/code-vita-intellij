@@ -30,6 +30,7 @@
 
     <application-components>
         <component>
+<!--            <implementation-class>com.dalakoti.codevita.GitChangesService</implementation-class>-->
             <implementation-class>com.dalakoti.codevita.MyApplicationComponent</implementation-class>
         </component>
     </application-components>

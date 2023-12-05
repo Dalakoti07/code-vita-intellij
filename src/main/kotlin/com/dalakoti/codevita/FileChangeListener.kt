@@ -9,16 +9,16 @@ import com.intellij.openapi.vfs.VirtualFile
 
 class FileChangeListener(private val project: Project?) : FileEditorManagerListener {
 
-    private var gitChangesTracker = GitChangesTracker(project!!.basePath!!)
+    private var gitChangesTracker = GitChangesTracker("/Users/saurabhdalakoti/IdeaProjects/code-vita-intellij")
 
     override fun fileOpened(source: FileEditorManager, file: VirtualFile) {
         // File opened, you can add custom logic here if needed
-        Messages.showMessageDialog(project, "file was opened", "opened", Messages.getInformationIcon())
+        showDialog("File was opened")
     }
 
     override fun fileClosed(source: FileEditorManager, file: VirtualFile) {
         // File closed, you can add custom logic here if needed
-        Messages.showMessageDialog(project, "file was closed", "closed", Messages.getInformationIcon())
+        showDialog("File was closed")
     }
 
     override fun selectionChanged(event: FileEditorManagerEvent) {
@@ -37,6 +37,6 @@ class FileChangeListener(private val project: Project?) : FileEditorManagerListe
 
     private fun showDialog(message: String) {
         // Show a dialog with the specified message
-        Messages.showMessageDialog(project, message, "File Changes Alert", Messages.getInformationIcon())
+        Messages.showMessageDialog(message, "File Changes Alert", Messages.getInformationIcon())
     }
 }
